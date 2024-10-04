@@ -6,7 +6,9 @@ This repository contains a list of of HTTP user-agents used by robots, crawlers,
 * Go package: <https://pkg.go.dev/github.com/monperrus/crawler-user-agents>
 * PyPi package: <https://pypi.org/project/crawler-user-agents/>
 
-Each `pattern` is a regular expression. It should work out-of-the-box wih your favorite regex library:
+Each `pattern` is a regular expression. It should work out-of-the-box wih your favorite regex library.
+
+If you use this project in a commercial product, [please sponsor it](https://github.com/sponsors/monperrus).
 
 ## Install
 
@@ -41,9 +43,23 @@ Then:
 
 ```python
 import crawleruseragents
-if crawleruseragents.is_crawler("googlebot/"):
+if crawleruseragents.is_crawler("Googlebot/"):
    # do something
 ```
+
+or:
+
+```python
+import crawleruseragents
+indices = crawleruseragents.matching_crawlers("bingbot/2.0")
+print("crawlers' indices:", indices)
+print(
+    "crawler's URL:",
+    crawleruseragents.CRAWLER_USER_AGENTS_DATA[indices[0]]["url"]
+)
+```
+
+Note that `matching_crawlers` is much slower than `is_crawler`, if the given User-Agent does indeed match any crawlers.
 
 ### Go
 
@@ -70,7 +86,7 @@ func main() {
 
 	indices := agents.MatchingCrawlers(userAgent)
 	fmt.Println("crawlers' indices:", indices)
-	fmt.Println("crawler' URL:", agents.Crawlers[indices[0]].URL)
+	fmt.Println("crawler's URL:", agents.Crawlers[indices[0]].URL)
 }
 ```
 
